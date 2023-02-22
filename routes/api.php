@@ -1,0 +1,36 @@
+<?php
+
+use App\Http\Controllers\ContactController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+
+/*
+|--------------------------------------------------------------------------
+| API Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register API routes for your application. These
+| routes are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "api" middleware group. Make something great!
+|
+*/
+
+Route::group(['middleware' => ['cors', 'json.response']], function(){
+
+	 Route::any('/', function () {
+        return response()->json([
+            'mesage' => 'Welcome to PHP Backend Test',
+            'apiVersion' => 'v1.0.0',
+        ]);
+    });
+
+
+		Route::group(['prefix' => 'v1'], function(){
+
+			Route::controller(ContactController::class)->group(function(){
+				
+				Route::post('/contact', 'createContact');
+			});
+
+	});
+});
